@@ -26,7 +26,7 @@ io.on('connection', (socket) => {
     console.log('User disconnected: ' + socket.id)
   })
 
-  socket.on("updatePosition", (data) => {
+  socket.on("playerUpdate", (data) => {
     positions[socket.id].x = data.x
     positions[socket.id].y = data.y
   })
@@ -34,3 +34,8 @@ io.on('connection', (socket) => {
 http.listen(port, () => {
   console.log(`Server running on port ${port}`)
 })
+
+const frameRate = 60;
+setInterval(() => {
+  io.emit("updatePlayers", positions)
+}, 1000/frameRate)
